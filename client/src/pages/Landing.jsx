@@ -2,6 +2,7 @@ import React from 'react'
 import main from '../assets/images/main.svg'
 import Wrapper from '../assets/wrappers/LandingPage'
 import {Logo} from '../components'
+import { Link } from 'react-router-dom'
 
 
 function Landing() {
@@ -23,7 +24,7 @@ function Landing() {
               slightly believable. If you are going to use a passage of Lorem
               Ipsum, you need to be sure there isn't
             </p>
-            <button className='btn btn-hero'>Login/Register</button>
+            <Link to='/register' className='btn btn-hero'>Login/Register</Link>
           </div>
           <img src={main} alt='main img' className='img main-img' />
 
