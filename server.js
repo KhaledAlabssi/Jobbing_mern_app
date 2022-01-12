@@ -4,6 +4,8 @@ dotenv.config()
 
 const app = express()
 
+import 'express-async-errors'
+
 // DB
 import connectDB from './db/connect.js'
 
