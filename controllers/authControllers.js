@@ -1,24 +1,32 @@
-import User from "../models/User.js"
-import { StatusCodes } from "http-status-codes"
-import {BadRequestError} from '../errors/index.js'
-
-
-
+import User from "../models/User.js";
+import { StatusCodes } from "http-status-codes";
+import { BadRequestError } from "../errors/index.js";
 
 const register = async (req, res) => {
-    // res.send('register user')
-    const {name, email, password} = req.body
-    if(!name || !email || !password) {
-      throw new BadRequestError('Pleaes provide all the values!')
-    }
-      const userAlreadyExists = await User.findOne({email})
-      if (userAlreadyExists) {
-        throw new BadRequestError('Email already in use!')
-      }
-      const user = await User.create({name, email, password})
-      res.status(StatusCodes.CREATED).json({user})
-    
-}
+  // res.send('register user')
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    throw new BadRequestError("Pleaes provide all the values!");
+  }
+  const userAlreadyExists = await User.findOne({ email });
+  if (userAlreadyExists) {
+    throw new BadRequestError("Email already in use!");
+  }
+  const user = await User.create({ name, email, password });
+  const token = user.createJWT();
+  res
+    .status(StatusCodes.CREATED)
+    .json({
+      user: {
+        email: user.email,
+        lastName: user.lastName,
+        lcoation: user.location,
+        name: user.name,
+      },
+      token,
+      location:user.location,
+    });
+};
 const login = async (req, res) => {
   res.send("login user");
 };
@@ -26,4 +34,4 @@ const updateUser = async (req, res) => {
   res.send("updateUser user");
 };
 
-export {register, login, updateUser}
+export { register, login, updateUser };
