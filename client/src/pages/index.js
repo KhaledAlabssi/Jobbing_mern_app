@@ -1,12 +1,13 @@
-import Dashboard from "./Dashboard"
+
 import Error from "./Error"
 import Register from "./Register"
 import Landing from "./Landing"
+import ProtectedLayout from "./ProtectedLayout"
 
 
 export {
-    Dashboard,
     Error,
     Register,
-    Landing
+    Landing,
+    ProtectedLayout,
 }

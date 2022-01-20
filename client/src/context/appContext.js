@@ -104,6 +104,30 @@ const AppProvider = ({ children }) => {
 
   }
 
+  const setupUser = async ({currentUser, endPoint, alertText}) => {
+    // console.log(currentUser);
+    dispatch({ type: SETUP_USER_BEGIN });
+    try {
+      const { data } = await axios.post(`/api/v1/auth/${endPoint}`, currentUser);
+      // console.log(response);
+      const { user, token, location } = data;
+      dispatch({
+        type: SETUP_USER_SUCCESS,
+        payload: { user, token, location, alertText },
+      });
+      // localstorage
+      addUserToLocalStorage({ user, token, location });
+    } catch (error) {
+      // console.log(error.response)
+      dispatch({
+        type: SETUP_USER_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    // console.log(currentUser);
+    clearAlert();
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -111,6 +135,8 @@ const AppProvider = ({ children }) => {
         displayAlert,
         registerUser,
         loginUser,
+        setupUser,
+        
 
       }}
     >

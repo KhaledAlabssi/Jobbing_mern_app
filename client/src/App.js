@@ -2,11 +2,18 @@
 import styled from 'styled-components'
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import {
-  Dashboard,
     Error,
     Register,
-    Landing
+    Landing,
+    ProtectedLayout,
 } from './pages'
+import {
+    AddJob,
+    AllJobs,
+    Proile,
+    SharedLayout,
+    Stats,
+} from './pages/dashboard'
 
 
 
@@ -14,12 +21,38 @@ import {
 function App() {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<div><Dashboard /></div>} />
-      <Route path='/register' element={<div><Register /></div>} />
-      <Route path='/landing' element={<Landing />} />
-      <Route path="*" element={<div><Error /></div>} />
-    </Routes>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ProtectedLayout>
+              <SharedLayout />
+            </ProtectedLayout>
+          }
+        >
+          <Route index element={<Stats />} />
+          <Route path="all-jobs" element={<AllJobs />} />
+          <Route path="add-job" element={<AddJob />} />
+          <Route path="profile" element={<Proile />} />
+        </Route>
+        <Route
+          path="/register"
+          element={
+            <div>
+              <Register />
+            </div>
+          }
+        />
+        <Route path="/landing" element={<Landing />} />
+        <Route
+          path="*"
+          element={
+            <div>
+              <Error />
+            </div>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }
